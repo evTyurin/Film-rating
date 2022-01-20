@@ -1,5 +1,7 @@
 package com.epam.film.rating.entity.user;
 
+import java.util.Objects;
+
 public class User {
     private int id;
     private String login;
@@ -18,33 +20,34 @@ public class User {
     public User() {
     }
 
-    public User(int id,
-                String login,
-                String password,
-                String nickname,
-                String name,
-                String surname,
-                String phoneNumber,
-                String eMail,
-                boolean isBanned,
-                double rating,
-                String avatarImage,
-                Role role,
-                String status) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
-        this.nickname = nickname;
-        this.name = name;
-        this.surname = surname;
-        this.phoneNumber = phoneNumber;
-        this.eMail = eMail;
-        this.isBanned = isBanned;
-        this.rating = rating;
-        this.avatarImage = avatarImage;
-        this.role = role;
-        this.status = status;
-    }
+//    public User(int id,
+//                String login,
+//                String password,
+//                String nickname,
+//                String name,
+//                String surname,
+//                String phoneNumber,
+//                String eMail,
+//                boolean isBanned,
+//                double rating,
+//                String avatarImage,
+//                Role role,
+//                String status) {
+//        this.id = id;
+//        this.login = login;
+//        this.password = password;
+//        this.nickname = nickname;
+//        this.name = name;
+//        this.surname = surname;
+//        this.phoneNumber = phoneNumber;
+//        this.eMail = eMail;
+//        this.isBanned = isBanned;
+//        this.rating = rating;
+//        this.avatarImage = avatarImage;
+//        this.role = role;
+//        this.status = status;
+//    }
+
 
     public int getId() {
         return id;
@@ -148,5 +151,37 @@ public class User {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getId() == user.getId() && isBanned() == user.isBanned() && Double.compare(user.getRating(), getRating()) == 0 && getLogin().equals(user.getLogin()) && getPassword().equals(user.getPassword()) && getNickname().equals(user.getNickname()) && getName().equals(user.getName()) && getSurname().equals(user.getSurname()) && getPhoneNumber().equals(user.getPhoneNumber()) && geteMail().equals(user.geteMail()) && getAvatarImage().equals(user.getAvatarImage()) && getRole() == user.getRole() && getStatus().equals(user.getStatus());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getLogin(), getPassword(), getNickname(), getName(), getSurname(), getPhoneNumber(), geteMail(), isBanned(), getRating(), getAvatarImage(), getRole(), getStatus());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", eMail='" + eMail + '\'' +
+                ", isBanned=" + isBanned +
+                ", rating=" + rating +
+                ", avatarImage='" + avatarImage + '\'' +
+                ", role=" + role +
+                ", status='" + status + '\'' +
+                '}';
     }
 }

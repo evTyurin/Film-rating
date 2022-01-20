@@ -17,18 +17,7 @@ public class Film {
     private List<String> poster;
     private List<String> trailer;
 
-
     public Film() {}
-
-//    public Film(int id, int productionYear, String name, String description,
-//                double filmRating, int reviewAmount) {
-//        this.id = id;
-//        this.productionYear = productionYear;
-//        this.name = name;
-//        this.description = description;
-//        this.filmRating = filmRating;
-//        this.reviewAmount = reviewAmount;
-//    }
 
     public int getId() {
         return id;
@@ -94,88 +83,6 @@ public class Film {
         this.ageRating = ageRating;
     }
 
-    //    public Type getType() {
-//        return type;
-//    }
-//
-//    public void setType(Type type) {
-//        this.type = type;
-//    }
-//
-//    public AgeRating getAgeRating() {
-//        return ageRating;
-//    }
-//
-//    public void setAgeRating(AgeRating ageRating) {
-//        this.ageRating = ageRating;
-//    }
-
-//    public List<Genre> getGenre() {
-//        return genre;
-//    }
-//
-//    public void setGenre(List<Genre> genre) {
-//        this.genre = genre;
-//    }
-//
-//    public List<CountryOfOrigin> getCountryOfOrigin() {
-//        return countryOfOrigin;
-//    }
-//
-//    public void setCountryOfOrigin(List<CountryOfOrigin> countryOfOrigin) {
-//        this.countryOfOrigin = countryOfOrigin;
-//    }
-//
-//    public List<Poster> getPoster() {
-//        return poster;
-//    }
-//
-//    public void setPoster(List<Poster> poster) {
-//        this.poster = poster;
-//    }
-//
-//    public List<Trailer> getTrailer() {
-//        return trailer;
-//    }
-//
-//    public void setTrailer(List<Trailer> trailer) {
-//        this.trailer = trailer;
-//    }
-
-
-//    public List<Genre> getGenre() {
-//        return genre;
-//    }
-//
-//    public void setGenre(List<Genre> genre) {
-//        this.genre = genre;
-//    }
-//
-//    public List<CountryOfOrigin> getCountryOfOrigin() {
-//        return countryOfOrigin;
-//    }
-//
-//    public void setCountryOfOrigin(List<CountryOfOrigin> countryOfOrigin) {
-//        this.countryOfOrigin = countryOfOrigin;
-//    }
-//
-//    public List<Poster> getPoster() {
-//        return poster;
-//    }
-//
-//    public void setPoster(List<Poster> poster) {
-//        this.poster = poster;
-//    }
-//
-//    public List<Trailer> getTrailer() {
-//        return trailer;
-//    }
-//
-//    public void setTrailer(List<Trailer> trailer) {
-//        this.trailer = trailer;
-//    }
-
-
     public List<String> getGenre() {
         return genre;
     }
@@ -213,12 +120,12 @@ public class Film {
         if (this == o) return true;
         if (!(o instanceof Film)) return false;
         Film film = (Film) o;
-        return getId() == film.getId() && getProductionYear() == film.getProductionYear() && Double.compare(film.getFilmRating(), getFilmRating()) == 0 && getReviewAmount() == film.getReviewAmount() && getName().equals(film.getName()) && getDescription().equals(film.getDescription()) && getGenre().equals(film.getGenre()) && getCountryOfOrigin().equals(film.getCountryOfOrigin()) && getPoster().equals(film.getPoster()) && getTrailer().equals(film.getTrailer());
+        return getId() == film.getId() && getProductionYear() == film.getProductionYear() && Double.compare(film.getFilmRating(), getFilmRating()) == 0 && getReviewAmount() == film.getReviewAmount() && getName().equals(film.getName()) && getDescription().equals(film.getDescription()) && getType().equals(film.getType()) && getAgeRating().equals(film.getAgeRating()) && getGenre().equals(film.getGenre()) && getCountryOfOrigin().equals(film.getCountryOfOrigin()) && getPoster().equals(film.getPoster()) && getTrailer().equals(film.getTrailer());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getProductionYear(), getName(), getDescription(), getFilmRating(), getReviewAmount(), getGenre(), getCountryOfOrigin(), getPoster(), getTrailer());
+        return Objects.hash(getId(), getProductionYear(), getName(), getDescription(), getFilmRating(), getReviewAmount(), getType(), getAgeRating(), getGenre(), getCountryOfOrigin(), getPoster(), getTrailer());
     }
 
     @Override
@@ -230,10 +137,9 @@ public class Film {
                 ", description='" + description + '\'' +
                 ", filmRating=" + filmRating +
                 ", reviewAmount=" + reviewAmount +
-//                ", type=" + type +
-
-//                ", ageRating=" + ageRating +
-//                ", genre=" + genre +
+                ", type='" + type + '\'' +
+                ", ageRating='" + ageRating + '\'' +
+                ", genre=" + genre +
                 ", countryOfOrigin=" + countryOfOrigin +
                 ", poster=" + poster +
                 ", trailer=" + trailer +

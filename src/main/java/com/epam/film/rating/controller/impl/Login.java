@@ -9,6 +9,7 @@ import com.epam.film.rating.service.ServiceFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,10 +21,10 @@ public class Login implements Command {
     public final String parameterLogin = "login";
     public final String parameterPassword = "password";
     public final String adminPageURL = "/WEB-INF/jsp/adminmainpage.jsp";
-    public final String userPageURL = "/WEB-INF/jsp/usermainpage.jsp";
-    public final String mainPageURL = "/WEB-INF/jsp/mainpage.jsp";
-
-    //TODO is it correct?
+    public final String userPageURL = "/WEB-INF/jsp/userMainPage.jsp";
+    public final String mainPageURL = "/WEB-INF/jsp/mainPage.jsp";
+    public final String userRoleAttribute = "userRole";
+    public final String userIdAttribute = "userId";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -39,13 +40,17 @@ public class Login implements Command {
 
             if(user != null) {
                 HttpSession session = request.getSession();
-                session.setAttribute("user", user); //TODO maybe cookie?
+
+                session.setAttribute(userIdAttribute, user.getId());
+                session.setAttribute(userRoleAttribute, user.getRole());
 
                 if (user.getRole().equals(Role.USER)) {
+                    user = null;
                     RequestDispatcher dispatcher = request.getRequestDispatcher(userPageURL);
                     dispatcher.forward(request, response);
 
                 } else if (user.getRole().equals(Role.ADMINISTRATOR)) {
+                    user = null;
                     RequestDispatcher dispatcher = request.getRequestDispatcher(adminPageURL);
                     dispatcher.forward(request, response);
                 }

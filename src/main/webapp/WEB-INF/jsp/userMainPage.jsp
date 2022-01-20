@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<form action="Controller?command=show" method="post">
+<form action="Controller?command=findFilmsByParameters" method="post">
     <h3>Select film parameters</h3>
     <input type="hidden" name="command" value="show">
     <p>production year <input type="number" name="year" value="production year"/></p>

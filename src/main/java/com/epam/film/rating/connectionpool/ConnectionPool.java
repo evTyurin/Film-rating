@@ -17,12 +17,6 @@ public final class ConnectionPool {
     private BlockingQueue<Connection> usedConnections;
 
     private ConnectionPool() {
-//        this.availableConnections = new ArrayBlockingQueue<>(DBParameter.DB_POOL_SIZE);
-//        this.usedConnections = new ArrayBlockingQueue<>(DBParameter.DB_POOL_SIZE);
-//        this.databaseURL = DBParameter.DB_URL;
-//        this.userName = DBParameter.DB_USER;
-//        this.password = DBParameter.DB_PASSWORD;
-//        this.poolSize = DBParameter.DB_POOL_SIZE;
 
         DBResourceManager dbResourceManager = DBResourceManager.getInstance();
 
@@ -32,8 +26,6 @@ public final class ConnectionPool {
         this.userName = dbResourceManager.getValue(DBParameter.DB_USER);
         this.password = dbResourceManager.getValue(DBParameter.DB_PASSWORD);
         this.poolSize = Integer.parseInt(dbResourceManager.getValue((String.valueOf(DBParameter.DB_POOL_SIZE))));
-
-
 
         initAvailableConnections();
     }
@@ -455,7 +447,4 @@ public final class ConnectionPool {
             return connection.isWrapperFor(aClass);
         }
     }
-
-
 }
-

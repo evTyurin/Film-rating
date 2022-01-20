@@ -22,4 +22,11 @@ public enum Role {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                '}';
+    }
 }

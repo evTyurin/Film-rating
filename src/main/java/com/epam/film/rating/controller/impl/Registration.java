@@ -13,6 +13,8 @@ public class Registration implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
+
+        //TODO
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         String nickname = request.getParameter("nickname");

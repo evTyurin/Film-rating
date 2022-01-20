@@ -3,8 +3,10 @@ package com.epam.film.rating.dao.builder;
 import com.epam.film.rating.dao.impl.FilmDAOImpl;
 import com.epam.film.rating.dao.impl.ReviewDAOImpl;
 import com.epam.film.rating.dao.impl.UserDAOImpl;
+import com.epam.film.rating.entity.ReviewDTO;
 import com.epam.film.rating.entity.film.*;
 import com.epam.film.rating.entity.review.Review;
+import com.epam.film.rating.entity.review.ReviewApproval;
 import com.epam.film.rating.entity.user.Role;
 import com.epam.film.rating.entity.user.User;
 
@@ -13,153 +15,64 @@ import java.sql.SQLException;
 
 public class InstanceBuilder {
 
+    public static User buildUser(ResultSet resultSet) throws SQLException {
+        User user = new User();
 
-//    public static User buildUser(ResultSet resultSet) throws SQLException {
-//        int id = resultSet.getInt(UserDAOImpl.ID);
-//        String login = resultSet.getString(UserDAOImpl.LOGIN);
-//        String password = resultSet.getString(UserDAOImpl.PASSWORD);
-//        String nickname = resultSet.getString(UserDAOImpl.NICKNAME);
-//        String name = resultSet.getString(UserDAOImpl.NAME);
-//        String surname = resultSet.getString(UserDAOImpl.SURNAME);
-//        String phoneNumber = resultSet.getString(UserDAOImpl.PHONE_NUMBER);
-//        String eMail = resultSet.getString(UserDAOImpl.E_MAIL);
-//        boolean isBanned = resultSet.getBoolean(UserDAOImpl.IS_BANNED);
-//        double rating = resultSet.getDouble(UserDAOImpl.RATING);
-//        String avatarImage = resultSet.getString(UserDAOImpl.AVATAR_IMAGE);
-//        Role role = Role.getRole(resultSet.getInt(UserDAOImpl.ROLE_ID));
-//        Status status = Status.getStatus((resultSet.getInt(UserDAOImpl.STATUS_ID)));
-//
-//        return new User(id, login, password, nickname, name, surname,
-//                phoneNumber, eMail, isBanned, rating, avatarImage, role, status);
-//    }
+        user.setId(resultSet.getInt(UserDAOImpl.ID));
+        user.setLogin(resultSet.getString(UserDAOImpl.LOGIN));
+        user.setPassword(resultSet.getString(UserDAOImpl.PASSWORD));
+        user.setNickname(resultSet.getString(UserDAOImpl.NICKNAME));
+        user.setName(resultSet.getString(UserDAOImpl.NAME));
+        user.setSurname(resultSet.getString(UserDAOImpl.SURNAME));
+        user.setPhoneNumber(resultSet.getString(UserDAOImpl.PHONE_NUMBER));
+        user.seteMail(resultSet.getString(UserDAOImpl.E_MAIL)); //TODO EMAIL
+        user.setBanned(resultSet.getBoolean(UserDAOImpl.IS_BANNED));
+        user.setRating(resultSet.getDouble(UserDAOImpl.RATING));
+        user.setAvatarImage(resultSet.getString(UserDAOImpl.AVATAR_IMAGE));
+        user.setRole(Role.getRole(resultSet.getInt(UserDAOImpl.ROLE_ID)));
+        user.setStatus(resultSet.getString(UserDAOImpl.STATUS));
 
-    public static User buildUser2(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt(UserDAOImpl.ID);
-        String login = resultSet.getString(UserDAOImpl.LOGIN);
-        String password = resultSet.getString(UserDAOImpl.PASSWORD);
-        String nickname = resultSet.getString(UserDAOImpl.NICKNAME);
-        String name = resultSet.getString(UserDAOImpl.NAME);
-        String surname = resultSet.getString(UserDAOImpl.SURNAME);
-        String phoneNumber = resultSet.getString(UserDAOImpl.PHONE_NUMBER);
-        String eMail = resultSet.getString(UserDAOImpl.E_MAIL);
-        boolean isBanned = resultSet.getBoolean(UserDAOImpl.IS_BANNED);
-        double rating = resultSet.getDouble(UserDAOImpl.RATING);
-        String avatarImage = resultSet.getString(UserDAOImpl.AVATAR_IMAGE);
-        Role role = Role.getRole(resultSet.getInt(UserDAOImpl.ROLE_ID));
-//        Status status = Status.getStatus((resultSet.getInt(UserDAOImpl.STATUS_ID)));
-
-        String status2 = resultSet.getString(UserDAOImpl.STATUS);
-        System.out.println("Hello " + role);
-//        System.out.println("Hello " + status);
-        System.out.println("Hello " + status2);
-
-        return new User(id, login, password, nickname, name, surname,
-                phoneNumber, eMail, isBanned, rating, avatarImage, role, status2);
+        return user;
     }
-
-//    public static Review buildReview(ResultSet resultSet, List<ReviewApproval> reviewApprovals, int userId, int filmId) throws SQLException {
-//        int id = resultSet.getInt(ReviewDAOImpl.ID);
-//        String review = resultSet.getString(ReviewDAOImpl.REVIEW);
-//        int mark = resultSet.getInt(ReviewDAOImpl.MARK);
-//        int likesAmount = resultSet.getInt(ReviewDAOImpl.LIKES_AMOUNT);
-//        int dislikesAmount = resultSet.getInt(ReviewDAOImpl.DISLIKES_AMOUNT);
-//        return new Review(id, review, mark, likesAmount, dislikesAmount, filmId, userId, reviewApprovals);
-//    }
 
     public static Review buildReview(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt(ReviewDAOImpl.ID);
-        String review = resultSet.getString(ReviewDAOImpl.REVIEW);
-        int mark = resultSet.getInt(ReviewDAOImpl.MARK);
-        int likesAmount = resultSet.getInt(ReviewDAOImpl.LIKES_AMOUNT);
-        int dislikesAmount = resultSet.getInt(ReviewDAOImpl.DISLIKES_AMOUNT);
-        return new Review(id, review, mark, likesAmount, dislikesAmount);
+        Review review = new Review();
+
+        review.setId(resultSet.getInt(ReviewDAOImpl.ID));
+        review.setReview(resultSet.getString(ReviewDAOImpl.REVIEW));
+        review.setMark(resultSet.getInt(ReviewDAOImpl.MARK));
+        review.setLikesAmount(resultSet.getInt(ReviewDAOImpl.LIKES_AMOUNT));
+        review.setDislikesAmount(resultSet.getInt(ReviewDAOImpl.DISLIKES_AMOUNT));
+
+        return review;
     }
 
-//    public ReviewApproval buildReviewApproval(ResultSet resultSet) throws SQLException {
-//        boolean isLiked = resultSet.getBoolean(ReviewDAOImpl.IS_LIKED);
-//        return new ReviewApproval(isLiked);
-//    }
+    public static ReviewApproval buildReviewApproval(ResultSet resultSet) throws SQLException {
+        ReviewApproval reviewApproval = new ReviewApproval();
 
-//    public static Trailer buildTrailer(ResultSet resultSet) throws SQLException {
-//        int id = resultSet.getInt(UserDAOImpl.ID);
-//        String trailerImage = resultSet.getString(UserDAOImpl.TRAILER_VIDEO);
-//        return new Trailer(id, trailerImage);
-//    }
-//
-//    public static Poster buildPoster(ResultSet resultSet) throws SQLException {
-//        int id = resultSet.getInt(UserDAOImpl.ID);
-//        String posterImage = resultSet.getString(UserDAOImpl.POSTER_IMAGE);
-//        return new Poster(id, posterImage);
-//    }
-            //TODO
-//    public static Genre buildGenre(ResultSet resultSet) throws SQLException {
-//        Genre genre = new Genre();
-//
-////        genre.setId(resultSet.getInt(FilmDAOImpl.ID));
-//        genre.setGenre(resultSet.getString(FilmDAOImpl.GENRE));
-//
-//        return genre;
-//    }
+        reviewApproval.setLiked(resultSet.getBoolean(ReviewDAOImpl.IS_LIKED));
+        reviewApproval.setDisliked(resultSet.getBoolean(ReviewDAOImpl.IS_DISLIKED));
 
-//    public static String buildGenre(ResultSet resultSet) throws SQLException {
-//
-//        return resultSet.getString(FilmDAOImpl.GENRE);
-//    }
-            //TODO
-//    public static CountryOfOrigin buildCountryOfOrigin(ResultSet resultSet) throws SQLException {
-//        CountryOfOrigin country = new CountryOfOrigin();
-//
-//        country.setId(resultSet.getInt(FilmDAOImpl.ID));
-//        country.setCountryOfOrigin(resultSet.getString(FilmDAOImpl.COUNTRY_OF_ORIGIN));
-//
-//        return country;
-//    }
+        return reviewApproval;
+    }
 
-//    public static Film buildFilm(ResultSet resultSet, List<Trailer> trailers, List<Poster> posters,
-//                                 List<Genre> genres, List<CountryOfOrigin> countryOfOrigin) throws SQLException {
-//
-//        int id = resultSet.getInt(FilmDAOImpl.ID);
-//        int productionYear = resultSet.getInt(FilmDAOImpl.PRODUCTION_YEAR);
-//        String name = resultSet.getString(FilmDAOImpl.NAME);
-//        String description = resultSet.getString(FilmDAOImpl.DESCRIPTION);
-//        double filmRating = resultSet.getDouble(FilmDAOImpl.FILM_RATING);
-//        int reviewAmount = resultSet.getInt(FilmDAOImpl.REVIEW_AMOUNT);
-//        Type type = Type.getType(resultSet.getInt(FilmDAOImpl.TYPE_ID));
-//        AgeRating ageRating = AgeRating.getAgeRating(resultSet.getInt(FilmDAOImpl.AGE_RATING));
-//
-//        return new Film(id, productionYear, name, description, filmRating, reviewAmount,
-//                type, ageRating, genres, countryOfOrigin, posters, trailers);
-//    }
+    public static ReviewDTO buildReviewDTO(ResultSet resultSet) throws SQLException {
+        ReviewDTO review = new ReviewDTO();
 
-//    public static Film buildFilm(ResultSet resultSet) throws SQLException {
-//
-//        int id = resultSet.getInt(FilmDAOImpl.ID);
-//        int productionYear = resultSet.getInt(FilmDAOImpl.PRODUCTION_YEAR);
-//        String name = resultSet.getString(FilmDAOImpl.NAME);
-//        String description = resultSet.getString(FilmDAOImpl.DESCRIPTION);
-//        double filmRating = resultSet.getDouble(FilmDAOImpl.FILM_RATING);
-//        int reviewAmount = resultSet.getInt(FilmDAOImpl.REVIEW_AMOUNT);
-//        Type type = Type.getType(resultSet.getInt(FilmDAOImpl.TYPE_ID));
-//        AgeRating ageRating = AgeRating.getAgeRating(resultSet.getInt(FilmDAOImpl.AGE_RATING));
-//
-//        return new Film(id, productionYear, name, description, filmRating, reviewAmount,
-//                type, ageRating);
-//    }
+        review.setId(resultSet.getInt(ReviewDAOImpl.ID));
+        review.setReview(resultSet.getString(ReviewDAOImpl.REVIEW));
+        review.setMark(resultSet.getInt(ReviewDAOImpl.MARK));
+        review.setLikesAmount(resultSet.getInt(ReviewDAOImpl.LIKES_AMOUNT));
+        review.setDislikesAmount(resultSet.getInt(ReviewDAOImpl.DISLIKES_AMOUNT));
+        review.setNickname(resultSet.getString(UserDAOImpl.NICKNAME));
+        review.setRating(resultSet.getDouble(UserDAOImpl.RATING));
+        review.setAvatarImage(resultSet.getString(UserDAOImpl.AVATAR_IMAGE));
+        review.setStatus(resultSet.getString(UserDAOImpl.STATUS));
 
-//    public static Film buildFilm(ResultSet resultSet) throws SQLException {
-//
-//        int id = resultSet.getInt(FilmDAOImpl.ID);
-//        int productionYear = resultSet.getInt(FilmDAOImpl.PRODUCTION_YEAR);
-//        String name = resultSet.getString(FilmDAOImpl.NAME);
-//        String description = resultSet.getString(FilmDAOImpl.DESCRIPTION);
-//        double filmRating = resultSet.getDouble(FilmDAOImpl.FILM_RATING);
-//        int reviewAmount = resultSet.getInt(FilmDAOImpl.REVIEW_AMOUNT);
-//
-//        return new Film(id, productionYear, name, description, filmRating, reviewAmount);
-//    }
+        return review;
+    }
 
     public static Film buildFilm(ResultSet resultSet) throws SQLException {
-
         Film film = new Film();
 
         film.setId(resultSet.getInt(FilmDAOImpl.ID));
@@ -173,10 +86,4 @@ public class InstanceBuilder {
 
         return film;
     }
-
-
-
-
-
-
 }

@@ -17,7 +17,7 @@
 
 <h2>Registration</h2>
 <form action="Controller" method="post">
-    <input type="hidden" name="command" value="Registration">
+    <input type="hidden" name="command" value="registration">
     <p>Login <input type="text" name="login" required></p>
     <p>Password <input type="text" name="password" required></p>
     <p>Nickname <input type="text" name="nickname" required></p>
@@ -42,7 +42,7 @@
 <c:out value="${message}"/>
 
 <br/>
-<a href="Controller?command=gotolog">True log in</a>
+<a href="Controller?command=goToLoginPage">True log in</a>
 <br/>
 
 </body>

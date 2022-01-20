@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class GoToMainPage implements Command {
-    public final String currentURL = "/WEB-INF/jsp/mainpage.jsp";
+    public final String currentURL = "/WEB-INF/jsp/mainPage.jsp";
     public final String URL = "URL";
 
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

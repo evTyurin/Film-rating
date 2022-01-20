@@ -39,7 +39,7 @@
 <c:out value="${message}"/>
 
 <br/>
-<a href="Controller?command=gotoreg">True reg in</a>
+<a href="Controller?command=goToRegistrationPage">True reg in</a>
 <br/>
 
 </body>

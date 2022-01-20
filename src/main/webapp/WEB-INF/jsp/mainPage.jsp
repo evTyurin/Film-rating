@@ -16,10 +16,10 @@
 <h2>Hello username</h2>
 
 <c:if test="${empty user}" var="testcif">
-    <form action="Controller?command=gotolog" method="post">
+    <form action="Controller?command=goToLoginPage" method="post">
         <input type="submit" value="Log in" />
     </form>
-    <form action="Controller?command=gotoreg" method="post">
+    <form action="Controller?command=goToRegistrationPage" method="post">
         <input type="submit" value="Registration" />
     </form>
     <br/>

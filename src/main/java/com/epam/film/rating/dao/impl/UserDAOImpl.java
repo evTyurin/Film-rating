@@ -66,7 +66,7 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement = connection.prepareStatement(GET_USERS);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                users.add(InstanceBuilder.buildUser2(resultSet));
+                users.add(InstanceBuilder.buildUser(resultSet));
             }
             return users;
         }catch (SQLException  sqlE) {
@@ -89,7 +89,7 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setString(2, password);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                user = InstanceBuilder.buildUser2(resultSet);
+                user = InstanceBuilder.buildUser(resultSet);
             }
             return user;
         }catch (SQLException  sqlE) {
@@ -133,7 +133,7 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement = connection.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                user = InstanceBuilder.buildUser2(resultSet);
+                user = InstanceBuilder.buildUser(resultSet);
             }
             return user;
         }catch (SQLException  sqlE) {
