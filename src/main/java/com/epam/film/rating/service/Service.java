@@ -23,5 +23,19 @@ public interface Service {
 
     Film getFilmById(int id) throws SQLException;
 
+    boolean updateReviewApprovalLike(boolean isLiked, int userId, int reviewId) throws SQLException, InterruptedException;
+
+    boolean updateLikesAmountById(int likesAmount, int reviewId) throws SQLException, InterruptedException;
+
+    boolean addReviewApproval (int userId, int reviewId, boolean isLiked, boolean isDisliked) throws SQLException, InterruptedException;
+
+    int getDislikesAmountById(int reviewId) throws SQLException;
+
+    boolean updateReviewApprovalDislike(boolean isDisliked, int userId, int reviewId) throws SQLException, InterruptedException;
+
+    boolean updateDislikesAmountById(int dislikesAmount, int reviewId) throws SQLException, InterruptedException;
+
+    boolean addReview(Review review, int filmId) throws SQLException, InterruptedException;
+
     User login(String login, String password) throws SQLException;
 }

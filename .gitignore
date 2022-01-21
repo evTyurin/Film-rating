@@ -1,6 +1,6 @@
 # Project exclude paths
 /target/
 /out/
-/main/
+/src/main/java/com/epam/film/rating/main/
 .idea
 *.iml

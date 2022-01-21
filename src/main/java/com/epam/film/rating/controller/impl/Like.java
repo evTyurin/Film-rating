@@ -34,39 +34,38 @@ public class Like implements Command {
             likeAmount = service.getLikesAmountById(reviewId);
             ReviewApproval reviewApproval = service.getReviewApprovalById(userId, reviewId);
             String likes = null;
-
-            ReviewDAOImpl reviewDAO = new ReviewDAOImpl(); //TODO ServiceFactory
             if(reviewApproval != null) {
                 if(reviewApproval.isLiked()) {
                     // cancel like
-                    reviewDAO.updateReviewApprovalLike(false, userId, reviewId);
+                    service.updateReviewApprovalLike(false, userId, reviewId);
 
                     likeAmount--;
-                    reviewDAO.updateLikesAmountById(likeAmount, reviewId);
+                    service.updateLikesAmountById(likeAmount, reviewId);
                     likes = Integer.toString(likeAmount);
 
                 } else if(reviewApproval.isDisliked() ) {
                     //do like
-                    reviewDAO.updateReviewApprovalLike(true, userId, reviewId);
+                    service.updateReviewApprovalLike(true, userId, reviewId);
 
                     likeAmount++;
-                    reviewDAO.updateLikesAmountById(likeAmount, reviewId);
+                    service.updateLikesAmountById(likeAmount, reviewId);
                     likes = Integer.toString(likeAmount);
 
                 } else {
                     //do like
-                    reviewDAO.updateReviewApprovalLike(true, userId, reviewId);
+                    service.updateReviewApprovalLike(true, userId, reviewId);
 
                     likeAmount++;
-                    reviewDAO.updateLikesAmountById(likeAmount, reviewId);
+                    service.updateLikesAmountById(likeAmount, reviewId);
                     likes = Integer.toString(likeAmount);
                 }
             } else {
                 //do instance with like
-                reviewDAO.addReviewApproval(userId, reviewId, true, false);
+                service.addReviewApproval(userId, reviewId, true, false);
+
 
                 likeAmount++;
-                reviewDAO.updateLikesAmountById(likeAmount, reviewId);
+                service.updateLikesAmountById(likeAmount, reviewId);
                 likes = Integer.toString(likeAmount);
             }
 

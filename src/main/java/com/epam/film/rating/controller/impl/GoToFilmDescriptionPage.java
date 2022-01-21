@@ -26,44 +26,53 @@ import java.util.List;
 public class GoToFilmDescriptionPage implements Command {
     public final String currentURL = "/WEB-INF/jsp/filmDescription.jsp";
     public final String parameterId = "id";
+    public final String userId = "userId";
     public final String URL = "URL";
+    public final String permission = "permission";
+    public final String film = "film";
+    public final String filmId = "filmId";
+    public final String reviews = "reviews";
+
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-    //TODO refactoring
         try{
             ServiceFactory instance = ServiceFactory.getInstance();
             Service service = instance.getService();
 
             int filmId = Integer.parseInt(request.getParameter(parameterId));
-            Film film = service.getFilmById(filmId);
 
-            HttpSession session = request.getSession();
-            session.setAttribute(URL, currentURL);
-            request.setAttribute("film", film);
+            request.setAttribute(film, service.getFilmById(filmId));
 
-            int userId = (Integer)session.getAttribute("userId");
+            setPermissionToReview(request, filmId);
 
-            List<Review> reviews = service.getReviewById(filmId, userId);
-            if (reviews.isEmpty()) {
-                request.setAttribute("permission", "true");
-            } else {
-                request.setAttribute("permission", "false");
-            }
-
-            request.setAttribute("filmId", filmId);
-            Cookie cookie = new Cookie("filmId", Integer.toString(filmId));
-            response.addCookie(cookie);
+            Cookie filmIdCookie = new Cookie("filmId", Integer.toString(filmId));
+            response.addCookie(filmIdCookie);
 
             List<ReviewDTO> ReviewsDTO = service.getReviewsByFilmId(filmId);
-
-            request.setAttribute("reviews", ReviewsDTO);
+            request.setAttribute(reviews, ReviewsDTO);
 
             RequestDispatcher dispatcher = request.getRequestDispatcher(currentURL);
             dispatcher.forward(request, response);
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setPermissionToReview(HttpServletRequest request, int filmId) throws SQLException {
+        ServiceFactory instance = ServiceFactory.getInstance();
+        Service service = instance.getService();
+
+        HttpSession session = request.getSession();
+
+        int id = (Integer)session.getAttribute(userId);
+
+        List<Review> reviews = service.getReviewById(filmId, id);
+        if (reviews.isEmpty()) {
+            request.setAttribute(permission, "true");
+        } else {
+            request.setAttribute(permission, "false");
         }
     }
 }

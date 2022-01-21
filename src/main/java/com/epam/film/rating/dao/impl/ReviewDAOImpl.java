@@ -277,7 +277,7 @@ public class ReviewDAOImpl implements ReviewDAO {
         }
     }
 
-    public boolean add (Review review, int filmId) throws SQLException, InterruptedException {
+    public boolean addReview(Review review, int filmId) throws SQLException, InterruptedException {
         Connection connection = connectable.getConnection();
         PreparedStatement pr = null;
 

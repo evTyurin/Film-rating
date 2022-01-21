@@ -1,14 +1,11 @@
 package com.epam.film.rating.controller.impl;
 
 import com.epam.film.rating.controller.Command;
-import com.epam.film.rating.dao.impl.FilmDAOImpl;
 import com.epam.film.rating.dao.impl.ReviewDAOImpl;
-import com.epam.film.rating.entity.ReviewDTO;
-import com.epam.film.rating.entity.film.Film;
 import com.epam.film.rating.entity.review.Review;
-import com.epam.film.rating.entity.user.User;
+import com.epam.film.rating.service.Service;
+import com.epam.film.rating.service.ServiceFactory;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -16,52 +13,58 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class LeaveReview implements Command {
 
+    public final String REVIEW_TEXT = "reviewText";
+    public final String FILL_MARK = "filmMark";
+    public final String FILM_ID = "filmId";
+    public final String USER_ID = "userId";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        //TODO refactoring
 
-        String reviewText = request.getParameter("reviewText").trim();
-        int filmMark = Integer.parseInt(request.getParameter("filmMark"));
+        String reviewText = request.getParameter(REVIEW_TEXT).trim();
+        int filmMark = Integer.parseInt(request.getParameter(FILL_MARK));
 
         HttpSession session = request.getSession();
+        int userId = (Integer)session.getAttribute(USER_ID);
 
-        Cookie[] cookies = request.getCookies();
-
-        String filmId = null;
-
-        for (Cookie aCookie : cookies) {
-            String name = aCookie.getName();
-
-            if (name.equals("filmId")) {
-                filmId = aCookie.getValue();
-                break;
-            }
-        }
-        int fILMid = Integer.parseInt(filmId);
-
-        int userId = (Integer)session.getAttribute("userId");
+        String filmId = getFromCookie(request, FILM_ID);
 
         Review review = new Review();
         review.setReview(reviewText);
         review.setMark(filmMark);
         review.setUserId(userId);
 
+        String result = null;
         try {
-            ReviewDAOImpl reviewDAO = new ReviewDAOImpl();
-            System.out.println("result = " + reviewDAO.add(review, fILMid));
+            ServiceFactory instance = ServiceFactory.getInstance();
+            Service service = instance.getService();
+            if(service.addReview(review, Integer.parseInt(filmId))) {
+                result = "success";
+            } else {
+                result = "not success";
+            }
         } catch (SQLException | InterruptedException e) {
             e.printStackTrace();
         }
 
-        String greetings = "Hello " + reviewText;
-
         response.setContentType("text/plain");
-        response.getWriter().write(greetings);
+        response.getWriter().write(result);
+    }
+
+    private String getFromCookie(HttpServletRequest request, String parameter) {
+        Cookie[] cookies = request.getCookies();
+
+        String parameterValue = null;
+
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(parameter)) {
+                parameterValue = cookie.getValue();
+                break;
+            }
+        }
+        return parameterValue;
     }
 }

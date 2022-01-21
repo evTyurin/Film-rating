@@ -3,6 +3,8 @@ package com.epam.film.rating.controller.impl;
 import com.epam.film.rating.controller.Command;
 import com.epam.film.rating.dao.impl.ReviewDAOImpl;
 import com.epam.film.rating.entity.review.ReviewApproval;
+import com.epam.film.rating.service.Service;
+import com.epam.film.rating.service.ServiceFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,38 +27,39 @@ public class Dislike implements Command {
             HttpSession session = request.getSession();
             int userId = (Integer)session.getAttribute(userID);
 
-            ReviewDAOImpl reviewDAO = new ReviewDAOImpl(); //TODO ServiceFactory
-            dislikesAmount = reviewDAO.getDislikesAmountById(reviewId);
-            ReviewApproval reviewApproval = reviewDAO.getReviewApprovalById(userId, reviewId);
+            ServiceFactory instance = ServiceFactory.getInstance();
+            Service service = instance.getService();
+
+            dislikesAmount = service.getDislikesAmountById(reviewId);
+            ReviewApproval reviewApproval = service.getReviewApprovalById(userId, reviewId);
             String dislikes = null;
             if(reviewApproval != null) {
 
-
                 if(reviewApproval.isDisliked()) {
-                    reviewDAO.updateReviewApprovalDislike(false, userId, reviewId);
+                    service.updateReviewApprovalDislike(false, userId, reviewId);
 
                     dislikesAmount--;
-                    reviewDAO.updateDislikesAmountById(dislikesAmount, reviewId);
+                    service.updateDislikesAmountById(dislikesAmount, reviewId);
                     dislikes = Integer.toString(dislikesAmount);
 
                 } else if(reviewApproval.isLiked() ) {
-                    reviewDAO.updateReviewApprovalDislike(true, userId, reviewId);
+                    service.updateReviewApprovalDislike(true, userId, reviewId);
 
                     dislikesAmount++;
-                    reviewDAO.updateDislikesAmountById(dislikesAmount, reviewId);
+                    service.updateDislikesAmountById(dislikesAmount, reviewId);
                     dislikes = Integer.toString(dislikesAmount);
                 } else {
-                    reviewDAO.updateReviewApprovalDislike(true, userId, reviewId);
+                    service.updateReviewApprovalDislike(true, userId, reviewId);
 
                     dislikesAmount++;
-                    reviewDAO.updateDislikesAmountById(dislikesAmount, reviewId);
+                    service.updateDislikesAmountById(dislikesAmount, reviewId);
                     dislikes = Integer.toString(dislikesAmount);
                 }
             } else {
-                reviewDAO.addReviewApproval(userId, reviewId, false, true);
+                service.addReviewApproval(userId, reviewId, false, true);
 
                 dislikesAmount++;
-                reviewDAO.updateDislikesAmountById(dislikesAmount, reviewId);
+                service.updateDislikesAmountById(dislikesAmount, reviewId);
                 dislikes = Integer.toString(dislikesAmount);
             }
 

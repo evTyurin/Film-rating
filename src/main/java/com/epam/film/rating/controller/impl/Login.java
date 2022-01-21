@@ -55,7 +55,7 @@ public class Login implements Command {
                     dispatcher.forward(request, response);
                 }
             } else {
-                //TODO some incorrect input message
+                //TODO some message about incorrect input (goto main page with ajax)
                 RequestDispatcher dispatcher = request.getRequestDispatcher(mainPageURL);
                 dispatcher.forward(request, response);
             }

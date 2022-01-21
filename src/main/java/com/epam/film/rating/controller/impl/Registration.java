@@ -10,36 +10,37 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
 public class Registration implements Command {
+
+    public final String login = "login";
+    public final String password = "password";
+    public final String nickname = "nickname";
+    public final String name = "name";
+    public final String surname = "surname";
+    public final String phoneNumber = "phoneNumber";
+    public final String eMail = "eMail";
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
 
-
-        //TODO
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-        String nickname = request.getParameter("nickname");
-        String name = request.getParameter("name");
-        String surname = request.getParameter("surname");
-        String phoneNumber = request.getParameter("phoneNumber");
-        String eMail = request.getParameter("eMail");
-
         User user = new User();
-        user.setLogin(login);
-        user.setPassword(password);
-        user.setNickname(nickname);
-        user.setName(name);
-        user.setSurname(surname);
-        user.setPhoneNumber(phoneNumber);
-        user.seteMail(eMail);
+        user.setLogin(request.getParameter(login));
+        user.setPassword(request.getParameter(password));
+        user.setNickname(request.getParameter(nickname));
+        user.setName(request.getParameter(name));
+        user.setSurname(request.getParameter(surname));
+        user.setPhoneNumber(request.getParameter(phoneNumber));
+        user.seteMail(request.getParameter(eMail));
 
+
+        //TODO Service factory
         DAOFactory instance = DAOFactory.getInstance();
         UserDAO ud = instance.getUserDAO();
 
         try {
             if(ud.add(user) == 1) {
-//                response.getWriter().println("You've sucsessfully log in");
+                // registration was successful
             } else {
-//                response.getWriter().println("You've NOT sucsessfully log in");
+                // registration was unsuccessful
             }
         } catch (SQLException | InterruptedException e) {
             e.printStackTrace();

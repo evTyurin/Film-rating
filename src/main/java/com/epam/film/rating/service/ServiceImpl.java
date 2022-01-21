@@ -58,6 +58,54 @@ public class ServiceImpl implements Service{
     }
 
     @Override
+    public boolean updateReviewApprovalLike(boolean isLiked, int userId, int reviewId) throws SQLException, InterruptedException {
+        DAOFactory factory = DAOFactory.getInstance();
+        ReviewDAO reviewDAO = factory.getReviewDAO();
+        return reviewDAO.updateReviewApprovalLike(isLiked, userId, reviewId);
+    }
+
+    @Override
+    public boolean updateLikesAmountById(int likesAmount, int reviewId) throws SQLException, InterruptedException {
+        DAOFactory factory = DAOFactory.getInstance();
+        ReviewDAO reviewDAO = factory.getReviewDAO();
+        return reviewDAO.updateLikesAmountById(likesAmount, reviewId);
+    }
+
+    @Override
+    public boolean addReviewApproval (int userId, int reviewId, boolean isLiked, boolean isDisliked) throws SQLException, InterruptedException {
+        DAOFactory factory = DAOFactory.getInstance();
+        ReviewDAO reviewDAO = factory.getReviewDAO();
+        return reviewDAO.addReviewApproval(userId, reviewId, isLiked, isDisliked);
+    }
+
+    @Override
+    public int getDislikesAmountById(int reviewId) throws SQLException {
+        DAOFactory factory = DAOFactory.getInstance();
+        ReviewDAO reviewDAO = factory.getReviewDAO();
+        return reviewDAO.getDislikesAmountById(reviewId);
+    }
+
+    public boolean updateReviewApprovalDislike(boolean isDisliked, int userId, int reviewId) throws SQLException, InterruptedException {
+        DAOFactory factory = DAOFactory.getInstance();
+        ReviewDAO reviewDAO = factory.getReviewDAO();
+        return reviewDAO.updateReviewApprovalDislike(isDisliked, userId, reviewId);
+    }
+
+    @Override
+    public boolean updateDislikesAmountById(int dislikesAmount, int reviewId) throws SQLException, InterruptedException {
+        DAOFactory factory = DAOFactory.getInstance();
+        ReviewDAO reviewDAO = factory.getReviewDAO();
+        return reviewDAO.updateDislikesAmountById(dislikesAmount, reviewId);
+    }
+
+    @Override
+    public boolean addReview(Review review, int filmId) throws SQLException, InterruptedException {
+        DAOFactory factory = DAOFactory.getInstance();
+        ReviewDAO reviewDAO = factory.getReviewDAO();
+        return reviewDAO.addReview(review, filmId);
+    }
+
+    @Override
     public User login(String login, String password) throws SQLException {
         DAOFactory factory = DAOFactory.getInstance();
         UserDAO userDAO = factory.getUserDAO();

@@ -12,7 +12,6 @@ import java.io.IOException;
 public class ChangeLanguage implements Command{
     public final String attributeURL = "URL";
     public final String attributeLocal = "local";
-    //TODO is it correct?
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
