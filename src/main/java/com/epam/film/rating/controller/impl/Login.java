@@ -1,11 +1,13 @@
 package com.epam.film.rating.controller.impl;
 
 import com.epam.film.rating.controller.Command;
+import com.epam.film.rating.dao.exception.DAOException;
 import com.epam.film.rating.dao.impl.UserDAOImpl;
 import com.epam.film.rating.entity.user.Role;
 import com.epam.film.rating.entity.user.User;
 import com.epam.film.rating.service.Service;
 import com.epam.film.rating.service.ServiceFactory;
+import com.epam.film.rating.service.exception.ServiceException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,7 +29,7 @@ public class Login implements Command {
     public final String userIdAttribute = "userId";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String login = request.getParameter(parameterLogin);
         String password = request.getParameter(parameterPassword);
@@ -59,8 +61,8 @@ public class Login implements Command {
                 RequestDispatcher dispatcher = request.getRequestDispatcher(mainPageURL);
                 dispatcher.forward(request, response);
             }
-        } catch (SQLException | ServletException | IOException e) {
-            e.printStackTrace();
+        } catch (ServiceException e) {
+            //TODO log
         }
     }
 }

@@ -3,6 +3,7 @@ package com.epam.film.rating.dao.impl;
 import com.epam.film.rating.connectionpool.ConnectionPool;
 import com.epam.film.rating.dao.UserDAO;
 import com.epam.film.rating.dao.builder.InstanceBuilder;
+import com.epam.film.rating.dao.exception.DAOException;
 import com.epam.film.rating.entity.user.User;
 
 import java.sql.*;
@@ -77,7 +78,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User login(String login, String password) throws SQLException {
+    public User login(String login, String password) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -92,8 +93,8 @@ public class UserDAOImpl implements UserDAO {
                 user = InstanceBuilder.buildUser(resultSet);
             }
             return user;
-        }catch (SQLException  sqlE) {
-            throw new SQLException();
+        }catch (SQLException  e) {
+            throw new DAOException(e);
         } finally {
             connectable.closeConnection(resultSet, preparedStatement, connection);
         }
@@ -122,26 +123,26 @@ public class UserDAOImpl implements UserDAO {
 //        }
 //    }
 
-    @Override
-    public User trygetByLoginAndPassword(String sql) throws SQLException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            User user = new User();
-            connection = connectable.getConnection();
-            preparedStatement = connection.prepareStatement(sql);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                user = InstanceBuilder.buildUser(resultSet);
-            }
-            return user;
-        }catch (SQLException  sqlE) {
-            throw new SQLException();
-        } finally {
-            connectable.closeConnection(resultSet, preparedStatement, connection);
-        }
-    }
+//    @Override
+//    public User trygetByLoginAndPassword(String sql) throws SQLException {
+//        Connection connection = null;
+//        PreparedStatement preparedStatement = null;
+//        ResultSet resultSet = null;
+//        try {
+//            User user = new User();
+//            connection = connectable.getConnection();
+//            preparedStatement = connection.prepareStatement(sql);
+//            resultSet = preparedStatement.executeQuery();
+//            while (resultSet.next()) {
+//                user = InstanceBuilder.buildUser(resultSet);
+//            }
+//            return user;
+//        }catch (SQLException  sqlE) {
+//            throw new SQLException();
+//        } finally {
+//            connectable.closeConnection(resultSet, preparedStatement, connection);
+//        }
+//    }
 
 //    @Override
 //    public boolean logIn(String login, String password) throws SQLException {
@@ -166,7 +167,7 @@ public class UserDAOImpl implements UserDAO {
 //    }
 
     @Override
-    public int add (User user) throws SQLException, InterruptedException {
+    public int add (User user) throws DAOException {
         Connection connection = connectable.getConnection();
         PreparedStatement pr = null;
 
@@ -186,8 +187,8 @@ public class UserDAOImpl implements UserDAO {
             pr.setString(10, user.getStatus());
 
             pr.executeUpdate();
-        } catch (SQLException | NullPointerException e) {
-            //TODO
+        } catch (SQLException e) {
+            throw new DAOException(e);
         } finally {
             connectable.closeConnection(pr, connection);
         }

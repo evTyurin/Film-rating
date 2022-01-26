@@ -4,111 +4,181 @@ import com.epam.film.rating.dao.DAOFactory;
 import com.epam.film.rating.dao.FilmDAO;
 import com.epam.film.rating.dao.ReviewDAO;
 import com.epam.film.rating.dao.UserDAO;
+import com.epam.film.rating.dao.exception.DAOException;
 import com.epam.film.rating.dao.impl.FilmDAOImpl;
 import com.epam.film.rating.entity.ReviewDTO;
 import com.epam.film.rating.entity.film.Film;
 import com.epam.film.rating.entity.review.Review;
 import com.epam.film.rating.entity.review.ReviewApproval;
 import com.epam.film.rating.entity.user.User;
+import com.epam.film.rating.service.exception.ServiceException;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class ServiceImpl implements Service{
     @Override
-    public List<Review> getReviewById(int filmId, int userId) throws SQLException {
+    public List<Review> getReviewById(int filmId, int userId) throws ServiceException {
         DAOFactory factory = DAOFactory.getInstance();
         ReviewDAO reviewDAO = factory.getReviewDAO();
-        return reviewDAO.getReviewById(filmId, userId);
+        try {
+            return reviewDAO.getReviewById(filmId, userId);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public List<ReviewDTO> getReviewsByFilmId(int filmId) throws SQLException {
+    public List<ReviewDTO> getReviewsByFilmId(int filmId) throws ServiceException {
         DAOFactory factory = DAOFactory.getInstance();
         ReviewDAO reviewDAO = factory.getReviewDAO();
-        return reviewDAO.getReviewsByFilmId(filmId);
+        try {
+            return reviewDAO.getReviewsByFilmId(filmId);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public List<Film> getFilmsByParameters(String year, String age_rating, String film_type, String genres[]) throws SQLException {
+    public List<Film> getFilmsByParameters(String year, String age_rating, String film_type, String genres[], int startFromRecordNumber) throws ServiceException {
         DAOFactory factory = DAOFactory.getInstance();
         FilmDAO filmDAO = factory.getFilmDAO();
-        return  filmDAO.getFilmsByParameters(year, age_rating, film_type, genres);
+        try {
+            return  filmDAO.getFilmsByParameters(year, age_rating, film_type, genres, startFromRecordNumber);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public int getLikesAmountById(int reviewId) throws SQLException {
+    public int getLikesAmountById(int reviewId) throws ServiceException {
         DAOFactory factory = DAOFactory.getInstance();
         ReviewDAO reviewDAO = factory.getReviewDAO();
-        return reviewDAO.getLikesAmountById(reviewId);
+        try {
+            return reviewDAO.getLikesAmountById(reviewId);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public ReviewApproval getReviewApprovalById(int userId, int reviewId) throws SQLException, InterruptedException {
+    public ReviewApproval getReviewApprovalById(int userId, int reviewId) throws ServiceException {
         DAOFactory factory = DAOFactory.getInstance();
         ReviewDAO reviewDAO = factory.getReviewDAO();
-        return reviewDAO.getReviewApprovalById(userId, reviewId);
+        try {
+            return reviewDAO.getReviewApprovalById(userId, reviewId);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public Film getFilmById(int id) throws SQLException {
+    public Film getFilmById(int id) throws ServiceException {
         DAOFactory factory = DAOFactory.getInstance();
         FilmDAO filmDAO = factory.getFilmDAO();
-        return filmDAO.getFilmById(id);
+        try {
+            return filmDAO.getFilmById(id);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public boolean updateReviewApprovalLike(boolean isLiked, int userId, int reviewId) throws SQLException, InterruptedException {
+    public boolean updateReviewApprovalLike(boolean isLiked, int userId, int reviewId) throws ServiceException {
         DAOFactory factory = DAOFactory.getInstance();
         ReviewDAO reviewDAO = factory.getReviewDAO();
-        return reviewDAO.updateReviewApprovalLike(isLiked, userId, reviewId);
+        try {
+            return reviewDAO.updateReviewApprovalLike(isLiked, userId, reviewId);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public int getFilmAmount(String year, String age_rating, String film_type, String genres[]) throws ServiceException {
+        DAOFactory factory = DAOFactory.getInstance();
+        FilmDAO filmDAO = factory.getFilmDAO();
+        try {
+            return filmDAO.getFilmAmount(year, age_rating, film_type, genres);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+
     }
 
     @Override
-    public boolean updateLikesAmountById(int likesAmount, int reviewId) throws SQLException, InterruptedException {
+    public boolean updateLikesAmountById(int likesAmount, int reviewId) throws ServiceException {
         DAOFactory factory = DAOFactory.getInstance();
         ReviewDAO reviewDAO = factory.getReviewDAO();
-        return reviewDAO.updateLikesAmountById(likesAmount, reviewId);
+        try {
+            return reviewDAO.updateLikesAmountById(likesAmount, reviewId);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public boolean addReviewApproval (int userId, int reviewId, boolean isLiked, boolean isDisliked) throws SQLException, InterruptedException {
+    public boolean addReviewApproval (int userId, int reviewId, boolean isLiked, boolean isDisliked) throws ServiceException {
         DAOFactory factory = DAOFactory.getInstance();
         ReviewDAO reviewDAO = factory.getReviewDAO();
-        return reviewDAO.addReviewApproval(userId, reviewId, isLiked, isDisliked);
+        try {
+            return reviewDAO.addReviewApproval(userId, reviewId, isLiked, isDisliked);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public int getDislikesAmountById(int reviewId) throws SQLException {
+    public int getDislikesAmountById(int reviewId) throws ServiceException {
         DAOFactory factory = DAOFactory.getInstance();
         ReviewDAO reviewDAO = factory.getReviewDAO();
-        return reviewDAO.getDislikesAmountById(reviewId);
+        try {
+            return reviewDAO.getDislikesAmountById(reviewId);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 
-    public boolean updateReviewApprovalDislike(boolean isDisliked, int userId, int reviewId) throws SQLException, InterruptedException {
+    public boolean updateReviewApprovalDislike(boolean isDisliked, int userId, int reviewId) throws ServiceException {
         DAOFactory factory = DAOFactory.getInstance();
         ReviewDAO reviewDAO = factory.getReviewDAO();
-        return reviewDAO.updateReviewApprovalDislike(isDisliked, userId, reviewId);
-    }
-
-    @Override
-    public boolean updateDislikesAmountById(int dislikesAmount, int reviewId) throws SQLException, InterruptedException {
-        DAOFactory factory = DAOFactory.getInstance();
-        ReviewDAO reviewDAO = factory.getReviewDAO();
-        return reviewDAO.updateDislikesAmountById(dislikesAmount, reviewId);
-    }
-
-    @Override
-    public boolean addReview(Review review, int filmId) throws SQLException, InterruptedException {
-        DAOFactory factory = DAOFactory.getInstance();
-        ReviewDAO reviewDAO = factory.getReviewDAO();
-        return reviewDAO.addReview(review, filmId);
+        try {
+            return reviewDAO.updateReviewApprovalDislike(isDisliked, userId, reviewId);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
-    public User login(String login, String password) throws SQLException {
+    public boolean updateDislikesAmountById(int dislikesAmount, int reviewId) throws ServiceException {
+        DAOFactory factory = DAOFactory.getInstance();
+        ReviewDAO reviewDAO = factory.getReviewDAO();
+        try {
+            return reviewDAO.updateDislikesAmountById(dislikesAmount, reviewId);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public boolean addReview(Review review, int filmId) throws ServiceException {
+        DAOFactory factory = DAOFactory.getInstance();
+        ReviewDAO reviewDAO = factory.getReviewDAO();
+        try {
+            return reviewDAO.addReview(review, filmId);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public User login(String login, String password) throws ServiceException {
         DAOFactory factory = DAOFactory.getInstance();
         UserDAO userDAO = factory.getUserDAO();
-        return userDAO.login(login, password);
+        try {
+            return userDAO.login(login, password);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+
     }
 }

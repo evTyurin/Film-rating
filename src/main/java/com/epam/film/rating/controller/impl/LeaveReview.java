@@ -5,6 +5,7 @@ import com.epam.film.rating.dao.impl.ReviewDAOImpl;
 import com.epam.film.rating.entity.review.Review;
 import com.epam.film.rating.service.Service;
 import com.epam.film.rating.service.ServiceFactory;
+import com.epam.film.rating.service.exception.ServiceException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -30,7 +31,7 @@ public class LeaveReview implements Command {
         HttpSession session = request.getSession();
         int userId = (Integer)session.getAttribute(USER_ID);
 
-        String filmId = getFromCookie(request, FILM_ID);
+        String filmId = getFilmIdFromCookie(request, FILM_ID);
 
         Review review = new Review();
         review.setReview(reviewText);
@@ -46,7 +47,7 @@ public class LeaveReview implements Command {
             } else {
                 result = "not success";
             }
-        } catch (SQLException | InterruptedException e) {
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
 
@@ -54,7 +55,7 @@ public class LeaveReview implements Command {
         response.getWriter().write(result);
     }
 
-    private String getFromCookie(HttpServletRequest request, String parameter) {
+    private String getFilmIdFromCookie(HttpServletRequest request, String parameter) {
         Cookie[] cookies = request.getCookies();
 
         String parameterValue = null;

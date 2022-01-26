@@ -2,6 +2,7 @@ package com.epam.film.rating.controller.impl;
 
 import com.epam.film.rating.controller.Command;
 import com.epam.film.rating.dao.ReviewDAO;
+import com.epam.film.rating.dao.exception.DAOException;
 import com.epam.film.rating.dao.impl.FilmDAOImpl;
 import com.epam.film.rating.dao.impl.ReviewDAOImpl;
 import com.epam.film.rating.entity.ReviewDTO;
@@ -10,6 +11,7 @@ import com.epam.film.rating.entity.review.Review;
 import com.epam.film.rating.entity.user.User;
 import com.epam.film.rating.service.Service;
 import com.epam.film.rating.service.ServiceFactory;
+import com.epam.film.rating.service.exception.ServiceException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,7 +32,9 @@ public class GoToFilmDescriptionPage implements Command {
     public final String URL = "URL";
     public final String permission = "permission";
     public final String film = "film";
-    public final String filmId = "filmId";
+    public final String FILM_ID = "filmId";
+    public final String PERMISSION_TRUE = "true";
+    public final String PERMISSION_FALSE = "false";
     public final String reviews = "reviews";
 
 
@@ -46,7 +50,7 @@ public class GoToFilmDescriptionPage implements Command {
 
             setPermissionToReview(request, filmId);
 
-            Cookie filmIdCookie = new Cookie("filmId", Integer.toString(filmId));
+            Cookie filmIdCookie = new Cookie(FILM_ID, Integer.toString(filmId));
             response.addCookie(filmIdCookie);
 
             List<ReviewDTO> ReviewsDTO = service.getReviewsByFilmId(filmId);
@@ -55,12 +59,12 @@ public class GoToFilmDescriptionPage implements Command {
             RequestDispatcher dispatcher = request.getRequestDispatcher(currentURL);
             dispatcher.forward(request, response);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (ServiceException e) {
+
         }
     }
 
-    private void setPermissionToReview(HttpServletRequest request, int filmId) throws SQLException {
+    private void setPermissionToReview(HttpServletRequest request, int filmId) throws ServiceException {
         ServiceFactory instance = ServiceFactory.getInstance();
         Service service = instance.getService();
 
@@ -70,9 +74,9 @@ public class GoToFilmDescriptionPage implements Command {
 
         List<Review> reviews = service.getReviewById(filmId, id);
         if (reviews.isEmpty()) {
-            request.setAttribute(permission, "true");
+            request.setAttribute(permission, PERMISSION_TRUE);
         } else {
-            request.setAttribute(permission, "false");
+            request.setAttribute(permission, PERMISSION_FALSE);
         }
     }
 }

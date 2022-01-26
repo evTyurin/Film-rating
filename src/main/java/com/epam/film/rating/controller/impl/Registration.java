@@ -5,8 +5,10 @@ import com.epam.film.rating.dao.DAOFactory;
 import com.epam.film.rating.dao.UserDAO;
 import com.epam.film.rating.entity.user.User;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class Registration implements Command {
@@ -20,30 +22,30 @@ public class Registration implements Command {
     public final String eMail = "eMail";
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        User user = new User();
-        user.setLogin(request.getParameter(login));
-        user.setPassword(request.getParameter(password));
-        user.setNickname(request.getParameter(nickname));
-        user.setName(request.getParameter(name));
-        user.setSurname(request.getParameter(surname));
-        user.setPhoneNumber(request.getParameter(phoneNumber));
-        user.seteMail(request.getParameter(eMail));
-
-
-        //TODO Service factory
-        DAOFactory instance = DAOFactory.getInstance();
-        UserDAO ud = instance.getUserDAO();
-
-        try {
-            if(ud.add(user) == 1) {
-                // registration was successful
-            } else {
-                // registration was unsuccessful
-            }
-        } catch (SQLException | InterruptedException e) {
-            e.printStackTrace();
-        }
+//        User user = new User();
+//        user.setLogin(request.getParameter(login));
+//        user.setPassword(request.getParameter(password));
+//        user.setNickname(request.getParameter(nickname));
+//        user.setName(request.getParameter(name));
+//        user.setSurname(request.getParameter(surname));
+//        user.setPhoneNumber(request.getParameter(phoneNumber));
+//        user.seteMail(request.getParameter(eMail));
+//
+//
+//        //TODO Service factory
+//        DAOFactory instance = DAOFactory.getInstance();
+//        UserDAO ud = instance.getUserDAO();
+//
+//        try {
+//            if(ud.add(user) == 1) {
+//                // registration was successful
+//            } else {
+//                // registration was unsuccessful
+//            }
+//        } catch (SQLException | InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 }

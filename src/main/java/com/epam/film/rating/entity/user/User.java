@@ -20,35 +20,6 @@ public class User {
     public User() {
     }
 
-//    public User(int id,
-//                String login,
-//                String password,
-//                String nickname,
-//                String name,
-//                String surname,
-//                String phoneNumber,
-//                String eMail,
-//                boolean isBanned,
-//                double rating,
-//                String avatarImage,
-//                Role role,
-//                String status) {
-//        this.id = id;
-//        this.login = login;
-//        this.password = password;
-//        this.nickname = nickname;
-//        this.name = name;
-//        this.surname = surname;
-//        this.phoneNumber = phoneNumber;
-//        this.eMail = eMail;
-//        this.isBanned = isBanned;
-//        this.rating = rating;
-//        this.avatarImage = avatarImage;
-//        this.role = role;
-//        this.status = status;
-//    }
-
-
     public int getId() {
         return id;
     }

@@ -5,6 +5,7 @@ import com.epam.film.rating.dao.impl.ReviewDAOImpl;
 import com.epam.film.rating.entity.review.ReviewApproval;
 import com.epam.film.rating.service.Service;
 import com.epam.film.rating.service.ServiceFactory;
+import com.epam.film.rating.service.exception.ServiceException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -66,7 +67,7 @@ public class Dislike implements Command {
             response.setContentType("text/plain");
             response.getWriter().write(dislikes);
 
-        } catch (SQLException | InterruptedException e) {
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
     }

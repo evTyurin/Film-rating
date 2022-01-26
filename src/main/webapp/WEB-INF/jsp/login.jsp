@@ -15,32 +15,37 @@
 
 </head>
 <body>
+<br>
+<br>
+<h2 align="center">Login</h2>
+<div align="center">
+    <form action="Controller" method="post">
+        <input type="hidden" name="command" value="login">
+        <p>Login <input type="text" name="login" required></p>
+        <p>Password <input type="text" name="password" required></p>
+        <p><input type="submit" value="RUN" required></p>
+    </form>
 
-<h2>Login</h2>
-<form action="Controller" method="post">
-    <input type="hidden" name="command" value="login">
-    <p>Login <input type="text" name="login" required></p>
-    <p>Password <input type="text" name="password" required></p>
-    <p><input type="submit" value="RUN" required></p>
-</form>
+    <form action="Controller?command=changeLanguage" method="post">
+        <input type="hidden" name="local" value="ru" />
+        <input type="submit" value="${ru_button}" />
+    </form>
+
+    <form action="Controller?command=changeLanguage" method="post">
+        <input type="hidden" name="local" value="en" />
+        <input type="submit" value="${en_button}" />
+    </form>
+
+    <br/>
+    <c:out value="${message}"/>
+</div>
 
 
-<form action="Controller?command=changeLanguage" method="post">
-    <input type="hidden" name="local" value="ru" /> <input type="submit"
-                                                           value="${ru_button}" /> <br/>
-</form>
 
-<form action="Controller?command=changeLanguage" method="post">
-    <input type="hidden" name="local" value="en" /> <input type="submit"
-                                                           value="${en_button}" /> <br/>
-</form>
-<br/>
 
-<c:out value="${message}"/>
-
-<br/>
-<a href="Controller?command=goToRegistrationPage">True reg in</a>
-<br/>
+<%--<br/>--%>
+<%--<a href="Controller?command=goToRegistrationPage">True reg in</a>--%>
+<%--<br/>--%>
 
 </body>
 </html>

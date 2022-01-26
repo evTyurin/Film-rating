@@ -3,6 +3,7 @@ package com.epam.film.rating.dao.impl;
 import com.epam.film.rating.connectionpool.ConnectionPool;
 import com.epam.film.rating.dao.FilmDAO;
 import com.epam.film.rating.dao.builder.InstanceBuilder;
+import com.epam.film.rating.dao.exception.DAOException;
 import com.epam.film.rating.entity.film.Film;
 
 import java.sql.*;
@@ -52,8 +53,7 @@ public class FilmDAOImpl implements FilmDAO {
 
     public FilmDAOImpl() {}
 
-
-    public String createSQL (String year, String age_rating, String film_type, String genres[]) {
+    public String createSQL (String year, String age_rating, String film_type, String genres[], int startFromRecordNumber) {
         StringBuilder filmParameters = new StringBuilder();
 
         filmParameters.append("SELECT film.id, film.production_year, film.name, film.description, film.film_rating, film.review_amount, film_age_rating.age_rating, film_type.type FROM film JOIN film_age_rating ON film.age_rating_id=film_age_rating.id JOIN film_type ON film.type_id=film_type.id WHERE 1=1");
@@ -84,18 +84,56 @@ public class FilmDAOImpl implements FilmDAO {
             filmParameters.append(genres.length);
             filmParameters.append("')");
         }
-        filmParameters.append(";");
+        filmParameters.append(" LIMIT 2 OFFSET "); //TODO
+        filmParameters.append(startFromRecordNumber); //TODO
+        filmParameters.append(";"); //TODO
 
         System.out.println(filmParameters.toString());
         return filmParameters.toString();
     }
 
-    public List<Film> getFilmsByParameters(String year, String age_rating, String film_type, String genres[]) throws SQLException {
+    public String createSQL222 (String year, String age_rating, String film_type, String genres[]) {
+        StringBuilder filmParameters = new StringBuilder();
+
+        filmParameters.append("SELECT COUNT(film.id) as filmAmount FROM film JOIN film_age_rating ON film.age_rating_id=film_age_rating.id JOIN film_type ON film.type_id=film_type.id WHERE 1=1");
+
+        if (year != null && year != "") {
+            System.out.println("year = " + year);
+            filmParameters.append(" AND film.production_year = '").append(year).append("'");
+        }
+
+        if (age_rating != null) {
+            filmParameters.append(" AND film_age_rating.age_rating = '").append(age_rating).append("'");
+        }
+
+        if (film_type != null) {
+            filmParameters.append(" AND film_type.type = '").append(film_type).append("'");
+        }
+
+        if (genres != null) {
+            filmParameters.append(" AND film.id IN (SELECT film_genre.film_id FROM film_genre JOIN genre ON film_genre.genre_id=genre.id WHERE genre.genre in(");
+            for (int i = 0; i < genres.length; i++) {
+                filmParameters.append("'").append(genres[i]).append("'");
+                if (genres.length - i > 1) {
+                    filmParameters.append(", ");
+                }
+            }
+            filmParameters.append(") GROUP BY film_genre.film_id HAVING count(*) ='");
+            filmParameters.append(genres.length);
+            filmParameters.append("')");
+        }
+        filmParameters.append(";"); //TODO
+
+        System.out.println(filmParameters.toString());
+        return filmParameters.toString();
+    }
+
+    public List<Film> getFilmsByParameters(String year, String age_rating, String film_type, String genres[], int amount) throws DAOException {
         int id;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = createSQL(year, age_rating, film_type, genres);
+        String sql = createSQL(year, age_rating, film_type, genres, amount);
         try {
             List<Film> films= new ArrayList<>();
             connection = connectable.getConnection();
@@ -116,12 +154,11 @@ public class FilmDAOImpl implements FilmDAO {
             }
             return films;
         }catch (SQLException  e) {
-            throw new SQLException();
+            throw new DAOException(e);
         } finally {
             connectable.closeConnection(resultSet, preparedStatement, connection);
         }
     }
-
 
     public List<Film> getAll() throws SQLException {
         Connection connection = null;
@@ -138,6 +175,27 @@ public class FilmDAOImpl implements FilmDAO {
             return users;
         }catch (SQLException  e) {
             throw new SQLException();
+        } finally {
+            connectable.closeConnection(resultSet, preparedStatement, connection);
+        }
+    }
+
+    @Override
+    public int getFilmAmount(String year, String age_rating, String film_type, String genres[]) throws DAOException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = createSQL222(year, age_rating, film_type, genres);
+        try {
+            connection = connectable.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getInt("filmAmount"); //TODO
+            }
+            return 0;
+        }catch (SQLException e) {
+            throw new DAOException(e);
         } finally {
             connectable.closeConnection(resultSet, preparedStatement, connection);
         }
@@ -239,7 +297,7 @@ public class FilmDAOImpl implements FilmDAO {
     }
 
     @Override
-    public Film getFilmById(int id) throws SQLException {
+    public Film getFilmById(int id) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -255,7 +313,7 @@ public class FilmDAOImpl implements FilmDAO {
             }
             return film;
         }catch (SQLException  e) {
-            throw new SQLException();
+            throw new DAOException(e);
         } finally {
             connectable.closeConnection(resultSet, preparedStatement, connection);
         }

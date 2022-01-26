@@ -13,21 +13,21 @@
 
 </head>
 <body>
-<h2>Hello username</h2>
+<br>
+<br>
+<h2 align="center">Hello username</h2>
 
-<c:if test="${empty user}" var="testcif">
-    <form action="Controller?command=goToLoginPage" method="post">
-        <input type="submit" value="Log in" />
-    </form>
-    <form action="Controller?command=goToRegistrationPage" method="post">
-        <input type="submit" value="Registration" />
-    </form>
-    <br/>
-</c:if>
-
-<c:if test="${not empty user}" var="testcif">
-    <c:out value="Hello ${user.name }"/>
-</c:if>
+<div align="center">
+    <c:if test="${empty user}" var="testcif">
+        <form action="Controller?command=goToLoginPage" method="post">
+            <input type="submit" value="Log in" />
+        </form>
+        <form action="Controller?command=goToRegistrationPage" method="post">
+            <input type="submit" value="Registration" />
+        </form>
+        <br/>
+    </c:if>
+</div>
 
 </body>
 </html>

@@ -10,9 +10,7 @@ public class ReviewDTO {
     private int mark;
     private int likesAmount;
     private int dislikesAmount;
-
     private String nickname;
-
     private double rating;
     private String avatarImage;
     private String status;

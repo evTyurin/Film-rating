@@ -3,6 +3,7 @@ package com.epam.film.rating.dao.impl;
 import com.epam.film.rating.connectionpool.ConnectionPool;
 import com.epam.film.rating.dao.ReviewDAO;
 import com.epam.film.rating.dao.builder.InstanceBuilder;
+import com.epam.film.rating.dao.exception.DAOException;
 import com.epam.film.rating.entity.ReviewDTO;
 import com.epam.film.rating.entity.review.Review;
 import com.epam.film.rating.entity.review.ReviewApproval;
@@ -70,7 +71,7 @@ public class ReviewDAOImpl implements ReviewDAO {
         }
     }
 
-    public boolean updateDislikesAmountById(int dislikesAmount, int reviewId) throws SQLException, InterruptedException {
+    public boolean updateDislikesAmountById(int dislikesAmount, int reviewId) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -82,14 +83,14 @@ public class ReviewDAOImpl implements ReviewDAO {
                 return true;
             }
         } catch (SQLException e) {
-            //TODO
+            throw new DAOException(e);
         } finally {
             connectable.closeConnection(preparedStatement, connection);
         }
         return false;
     }
 
-    public ReviewApproval getReviewApprovalById(int userId, int reviewId) throws SQLException, InterruptedException {
+    public ReviewApproval getReviewApprovalById(int userId, int reviewId) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -103,7 +104,7 @@ public class ReviewDAOImpl implements ReviewDAO {
                 return InstanceBuilder.buildReviewApproval(resultSet);
             }
         } catch (SQLException e) {
-            //TODO
+            throw new DAOException(e);
         } finally {
             connectable.closeConnection(preparedStatement, connection);
         }
@@ -131,7 +132,7 @@ public class ReviewDAOImpl implements ReviewDAO {
         return null; //TODO
     }
 
-    public boolean addReviewApproval (int userId, int reviewId, boolean isLiked, boolean isDisliked) throws SQLException, InterruptedException {
+    public boolean addReviewApproval (int userId, int reviewId, boolean isLiked, boolean isDisliked) throws DAOException {
         Connection connection = connectable.getConnection();
         PreparedStatement pr = null;
 
@@ -146,15 +147,15 @@ public class ReviewDAOImpl implements ReviewDAO {
             if(pr.executeUpdate() == 1) {
                 return true;
             };
-        } catch (SQLException | NullPointerException e) {
-            //TODO
+        } catch (SQLException e) {
+            throw new DAOException(e);
         } finally {
             connectable.closeConnection(pr, connection);
         }
         return false;
     }
 
-    public boolean updateReviewApprovalLike(boolean isLiked, int userId, int reviewId) throws SQLException, InterruptedException {
+    public boolean updateReviewApprovalLike(boolean isLiked, int userId, int reviewId) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -167,14 +168,14 @@ public class ReviewDAOImpl implements ReviewDAO {
                 return true;
             }
         } catch (SQLException e) {
-            //TODO
+            throw new DAOException(e);
         } finally {
             connectable.closeConnection(preparedStatement, connection);
         }
         return false;
     }
 
-    public boolean updateReviewApprovalDislike(boolean isDisliked, int userId, int reviewId) throws SQLException, InterruptedException {
+    public boolean updateReviewApprovalDislike(boolean isDisliked, int userId, int reviewId) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -187,14 +188,14 @@ public class ReviewDAOImpl implements ReviewDAO {
                 return true;
             }
         } catch (SQLException e) {
-            //TODO
+            throw new DAOException(e);
         } finally {
             connectable.closeConnection(preparedStatement, connection);
         }
         return false;
     }
 
-    public boolean updateLikesAmountById(int likesAmount, int reviewId) throws SQLException, InterruptedException {
+    public boolean updateLikesAmountById(int likesAmount, int reviewId) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -206,14 +207,14 @@ public class ReviewDAOImpl implements ReviewDAO {
                 return true;
             }
         } catch (SQLException e) {
-            //TODO
+            throw new DAOException(e);
         } finally {
             connectable.closeConnection(preparedStatement, connection);
         }
         return false;
     }
 
-    public List<Review> getReviewById(int filmId, int userId) throws SQLException {
+    public List<Review> getReviewById(int filmId, int userId) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -228,14 +229,14 @@ public class ReviewDAOImpl implements ReviewDAO {
                 reviews.add(InstanceBuilder.buildReview(resultSet));
             }
             return reviews;
-        }catch (SQLException  sqlE) {
-            throw new SQLException();
+        }catch (SQLException  e) {
+            throw new DAOException(e);
         } finally {
             connectable.closeConnection(resultSet, preparedStatement, connection);
         }
     }
 
-    public int getDislikesAmountById(int reviewId) throws SQLException {
+    public int getDislikesAmountById(int reviewId) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -249,14 +250,14 @@ public class ReviewDAOImpl implements ReviewDAO {
             }
 
             return -1;
-        }catch (SQLException  sqlE) {
-            throw new SQLException();
+        }catch (SQLException  e) {
+            throw new DAOException(e);
         } finally {
             connectable.closeConnection(resultSet, preparedStatement, connection);
         }
     }
 
-    public int getLikesAmountById(int reviewId) throws SQLException {
+    public int getLikesAmountById(int reviewId) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -270,14 +271,14 @@ public class ReviewDAOImpl implements ReviewDAO {
             }
 
             return -1;
-        }catch (SQLException  sqlE) {
-            throw new SQLException();
+        }catch (SQLException  e) {
+            throw new DAOException(e);
         } finally {
             connectable.closeConnection(resultSet, preparedStatement, connection);
         }
     }
 
-    public boolean addReview(Review review, int filmId) throws SQLException, InterruptedException {
+    public boolean addReview(Review review, int filmId) throws DAOException {
         Connection connection = connectable.getConnection();
         PreparedStatement pr = null;
 
@@ -292,8 +293,8 @@ public class ReviewDAOImpl implements ReviewDAO {
             if(pr.executeUpdate() == 1) {
                 return true;
             };
-        } catch (SQLException | NullPointerException e) {
-            //TODO
+        } catch (SQLException e) {
+            throw new DAOException(e);
         } finally {
             connectable.closeConnection(pr, connection);
         }
@@ -301,7 +302,7 @@ public class ReviewDAOImpl implements ReviewDAO {
 
     }
 
-    public List<ReviewDTO> getReviewsByFilmId(int filmId) throws SQLException {
+    public List<ReviewDTO> getReviewsByFilmId(int filmId) throws DAOException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -321,7 +322,7 @@ public class ReviewDAOImpl implements ReviewDAO {
             }
             return reviews;
         }catch (SQLException  e) {
-            throw new SQLException();
+            throw new DAOException(e);
         } finally {
             connectable.closeConnection(resultSet, preparedStatement, connection);
         }

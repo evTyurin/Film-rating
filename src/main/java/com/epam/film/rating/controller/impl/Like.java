@@ -5,6 +5,7 @@ import com.epam.film.rating.dao.impl.ReviewDAOImpl;
 import com.epam.film.rating.entity.review.ReviewApproval;
 import com.epam.film.rating.service.Service;
 import com.epam.film.rating.service.ServiceFactory;
+import com.epam.film.rating.service.exception.ServiceException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -63,7 +64,6 @@ public class Like implements Command {
                 //do instance with like
                 service.addReviewApproval(userId, reviewId, true, false);
 
-
                 likeAmount++;
                 service.updateLikesAmountById(likeAmount, reviewId);
                 likes = Integer.toString(likeAmount);
@@ -72,7 +72,7 @@ public class Like implements Command {
             response.setContentType("text/plain");
             response.getWriter().write(likes);
 
-        } catch (SQLException | InterruptedException e) {
+        } catch (ServiceException e) {
             e.printStackTrace();
         }
 

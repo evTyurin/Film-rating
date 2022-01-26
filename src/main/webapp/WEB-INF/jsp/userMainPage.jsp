@@ -7,10 +7,12 @@
     <title>Title</title>
 </head>
 <body>
-
-<form action="Controller?command=findFilmsByParameters" method="post">
+<br>
+<br>
+<div align="center">
+<form  action="Controller?command=findFilmsByParameters" method="get">
     <h3>Select film parameters</h3>
-    <input type="hidden" name="command" value="show">
+    <input type="hidden" name="command" value="findFilmsByParameters">
     <p>production year <input type="number" name="year" value="production year"/></p>
     <p>
         <input type="checkbox" name="age_rating" value="R6">6+
@@ -32,8 +34,8 @@
         <input type="checkbox" name="genre" value="thriller"/>thriller
     </p>
 
-    <p><input type="submit" value="press"/>
+    <input type="submit" value="press"/>
 </form>
-
+</div>
 </body>
 </html>
